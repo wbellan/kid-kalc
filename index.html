@@ -1,0 +1,113 @@
+<html>
+<head>
+<script type="text/javascript">
+  function drawTable(rows, cols) {
+      var num_rows = rows;
+      var num_cols = cols;
+      var theader = "<table id='kalcTbl'>";
+      var tbody = "";
+
+      for(var j = 0; j < num_cols; j++)
+      {
+        if (j == 0) {
+          theader += "<th><span class=\'kk\'>Kid Kalc</span></th>";
+        } else {
+          theader += "<th>"+ (j) +" </th>";
+        }
+      }
+
+      for(var i = 0; i < num_rows; i++)
+      {
+          tbody += "<tr>";
+          for(var j = 0; j < num_cols; j++)
+          {
+              if (j ==0) {
+                tbody += "<th>";
+                tbody += (i+1);
+                tbody += "</th>"
+              } else {
+                tbody += "<td>";
+                tbody += "</td>"
+              }
+          }
+          tbody += "</tr><br />";
+      }
+
+      var tfooter = "</table>";
+      document.getElementById('wrapper').innerHTML = theader + tbody + tfooter;
+
+      if (!document.getElementsByTagName || !document.createTextNode) return;
+
+      var cols = document.getElementById('kalcTbl').getElementsByTagName('tbody')[0].getElementsByTagName('td');
+      for (i = 0; i < cols.length; i++) {
+          cols[i].onclick = function() {
+
+              var x = this.parentNode.rowIndex;
+              var y = this.cellIndex;
+              var sum = (x * y);
+
+              this.innerHTML = "<span id='kalcCell1' style=\'color:blue;font-weight:bold\'>" + sum + "</span>";
+
+              for (i = 0; i < cols.length; i++) {
+
+                if (cols[i].cellIndex == x) {
+                  if (cols[i].parentNode.rowIndex ==y) {
+                    cols[i].innerHTML = "<span id='kalcCell2' style=\'color:blue;font-weight:bold\'>" + sum + "</span>";
+                  }
+                }
+              }
+
+              setTimeout(function() {
+                var a = document.getElementById('kalcCell1');
+                if (a && typeof x != 'undefined') {
+                  a.innerHTML = '';
+                  a.setAttribute('id', '');
+                }
+                var b = document.getElementById('kalcCell2');
+                if (b && typeof x != 'undefined') {
+                  b.innerHTML = '';
+                  b.setAttribute('id', '');
+                }
+              }, 3000);
+          }
+      }
+  }
+
+  window.onload = function() {
+    drawTable(12, 13);
+  };
+</script>
+<style>
+#kalcTbl
+{
+    height:100%;
+    width:100%; 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    left: 0; 
+    right: 0;
+    border:1px solid;
+}
+
+#kalcTbl td, th
+{
+    border:solid 1px;
+    text-align: center;
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
+}
+
+span.kk {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-style: oblique;
+  color: rgb(0,0,255);
+
+}
+</style>
+</head>
+<body>
+    <div id="wrapper"></div>
+</body>
+</html>
